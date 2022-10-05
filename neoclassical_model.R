@@ -19,7 +19,7 @@ nScenarios = 2
 
 #Parameters
 c0 = 10     #Autonomous consumption
-c1=0.8      #Marginal propensity to consume out of income
+c1 = 0.8    #Marginal propensity to consume out of income
 i0 = 0.04   #Interest rate
 b0 = 14     #Autonomous investment
 b1 = 100    #Sensitivity of investment to interest rate
