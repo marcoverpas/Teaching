@@ -31,7 +31,7 @@ l2 = 8         #Sensitivity of labour supply to real wage rate
 s0 = 6         #Saving independent of interest rate
 s1 = 100       #Sensitivity of saving to interest rate
 p1 = 1         #Initial price level
-gamma_w = 0.2  #Speed of adjustment of nominal wage rate
+gamma_w = 0.3  #Speed of adjustment of nominal wage rate
 w1 = 2.5       #Initial level of nominal wage rate  
 L_f = 20       #Full employment level
 
@@ -95,7 +95,7 @@ for (t in 2:nPeriods){
   
   i[j,t] = (b0 - s0)/(s1 + b1)                        #Interest rate (such that S = I)
   
-  p[j,t] = (Y[j,t] + prod * l1 * w1)/(prod * l0)      #Price level (market clearing): p[j,t] = Y[j,t]/X[j,t]
+  p[j,t] = (Y[j,t] + prod * l1 * w[j,t])/(prod * l0)  #Price level (market clearing): p[j,t] = Y[j,t]/X[j,t]
   
   X[j,t] = Ls[j,t]*prod                               #Real output (defined by production function)
   
