@@ -97,18 +97,18 @@ for (t in 2:nPeriods){
   
   p[j,t] = (Y[j,t] + prod * l1 * w[j,t])/(prod * l0)  #Price level (market clearing): p[j,t] = Y[j,t]/X[j,t]
   
-  X[j,t] = Ls[j,t]*prod                               #Real output (defined by production function)
+  X[j,t] = Y[j,t]/p[j,t]                              #Real output (demand-driven in the short run)
   
   Ld[j,t] = l0 - l1*wr[j,t]                           #Labour demand (as a negative function of the real wage)
   
-  Ls[j,t] = Ld[j,t]                                   #Labour supply (adjusting to labour demand)
+  Ls[j,t] = l2*wr[j,t]                                #Labour supply (as a positive function of the real wage)
   
   wr_f[j,t] = l0/(l2 + l1)                            #Full-employment real wage rate (such that: Ld = Ls)  
   
   wr[j,t] = w[j,t]/p[j,t]                             #Real wage rate (as ratio of nominal wage rate to price level)
 
   w[j,t] = w[j,t-1] - gamma_w*(wr[j,t-1] - wr_f[j,t]) #Nominal wage rate (sticky, adjusting slowly to new labour market conditions)
-  
+    
   #############################
   
 }}}
