@@ -1,2 +1,11 @@
 # Teaching
-These R codes reproduce the three basic models in macroeconomics: an early neoclassical model; a Keynes-like model; and the model associated with the so-called Neoclassical-Keynesian Synthesis.
+
+These `R` codes replicate the three basic models in macroeconomics:
+
+- An early *neoclassical* model
+  
+- A *Keynes-like* model
+  
+- The model associated with the so-called *Neoclassical-Keynesian Synthesis*
+
+For additional teaching material, see also my [six_lectures_on_sfc_models](https://github.com/marcoverpas/Six_lectures_on_sfc_models).
