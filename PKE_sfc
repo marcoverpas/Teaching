@@ -1,0 +1,136 @@
+#PKE-SFC MODEL
+
+#Made by Marco Veronese Passarella, 29th February 2020
+
+############################################################################
+
+#STEP 1: Clear the workspace
+
+#Clear all
+rm(list=ls(all=TRUE))
+
+############################################################################
+
+#STEP 2: Define the number of periods and scenarios
+
+#Number of periods
+nPeriods = 100
+
+#Number of scenarios
+nScenarios=2 
+
+
+############################################################################
+
+#STEP 3: Define variables
+Y=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Output (income)
+C=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Consumption
+I=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Investment
+NX=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Net export
+K=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Capital stock
+KT=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Desired capital stock 
+Pf=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Firms' profits 
+Pb=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Banks' profits 
+P=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Capitalists' total income 
+W=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Wages 
+r=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Profit rate 
+Ld=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Firms demand for bank loans
+Md=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Households demand for deposits
+Ls=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Banks supply of loans
+Ms=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Banks supply of deposits
+omega=matrix(data=0.5,nrow=nScenarios,ncol=nPeriods)        #Wage share to total income
+
+############################################################################
+
+#STEP 4: Set values for parameters and exogenous variables 
+c0=10                                                        #Autonomous consumption
+cW=0.95                                                      #Marginal propensity to consume out of wages
+cP=0.55                                                      #Marginal propensity to consume out of profits
+c2=0.01                                                      #Marginal propensity to consume out of wealth
+kappa=1                                                      #Target capital to output ratio
+gamma=0.15                                                   #Speed of adjustment of capital
+delta=0.1                                                    #Capital depreciation rate
+rl=0.2                                                       #Interest rate on loans 
+rm=0.2                                                       #Interest rate on deposits 
+
+############################################################################
+
+# STEP 5: CREATE THE MODEL
+
+#Select scenarios
+for (j in 1:nScenarios){
+  
+  #Define the time loop
+  for (i in 2:nPeriods){
+    
+    #Define iterations
+    for (iterations in 1:100){
+      
+      #Define alternative scenario (higher wage share)
+      if (i>=30 && j==2){
+        omega[2,i]=0.55
+      }
+      
+      #MODEL EQUATIONS      
+      Y[j,i] = C[j,i] + I[j,i]                                #1B) National income (output)
+      C[j,i] = c0 + cW*W[j,i-1] + cP*P[j,i-1] + c2*Md[j,i-1]  #2C) Consumption using different propensities to consume 
+      KT[j,i] = kappa*Y[j,i-1]                                #3) Desired capital stock 
+      I[j,i] = gamma*(KT[j,i] - K[j,i-1]) + delta*K[j,i-1]    #4) Gross investment
+      K[j,i] = K[j,i-1]*(1-delta) + I[j,i]                    #5) Capital stock 
+      Md[j,i] = Md[j,i-1] + P[j,i] + W[j,i] - C[j,i]          #12) Household wealth (stock of deposits)
+      Ld[j,i] = Ld[j,i-1] + I[j,i] - delta*K[j,i-1]           #13) Demand for loans: domestic firms
+      Ls[j,i] = Ld[j,i]                                       #14) Supply of bank loans
+      Ms[j,i] = Md[j,i]                                       #15) Supply of bank deposits
+      W[j,i] = omega[j,i]*Y[j,i]                              #7) Wage bill
+      Pf[j,i] = Y[j,i] - W[j,i] - rl*Ld[j,i-1] - delta*K[j,i-1] #16) Firms profits (net of interest payments)
+      Pb[j,i] = rl*Ld[j,i-1] - rm*Md[j,i-1]                   #17) Banks profits
+      P[j,i] = Pf[j,i] + Pb[j,i] + rm*Md[j,i-1]               #8B) Total non-labour incomes
+      
+    }
+  }
+}
+
+############################################################################
+
+# STEP 6: PERFORM CHECKS AND PLOTS
+
+#Create custom color
+mycol1 <- rgb(0,255,0, max = 255, alpha = 50, names = "mygreen")
+mycol2 <- rgb(255,0,0, max = 255, alpha = 50, names = "myred")
+mycol3 <- rgb(0, 0, 255, max = 255, alpha = 50, names = "blue50")
+
+#Plot redundant equation
+plot(Md[1,2:100], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="Redundant equation check (Md = Ms)",ylab = '£',xlab = '', ylim = range(0,70),cex.axis=0.75,cex.lab=1)
+lines(Ms[1,2:100], type="l", lty = 3, lwd = 3, col=3)
+abline(h=51.28146,col=1,lty=3,lwd=1)
+legend("bottomright",c("Demand for deposits","Supply of deposits"),  bty = "n", cex = 1, lty=c(1,3), lwd=c(2,3), col = c(1,3), box.lty=0)
+
+#Create baseline charts
+
+#Output components under baseline
+plot(Y[1,2:100], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="1a) Output components under baseline",ylab = '£',xlab = '', ylim = range(0,80),cex.axis=0.75,cex.lab=1)
+lines(C[1,2:100], type="l", lty = 2, lwd = 2, col=2)
+lines(I[1,2:100], type="l", lty = 3, lwd = 2, col=3)
+abline(h=51.28201,col=1,lty=3,lwd=1)
+legend("bottomright",c("Output","Consumption","Gross investment"),  bty = "n", cex = 1, lty=c(1,2,3), lwd=c(2,2,2), col = c(1,2,3), box.lty=0)
+
+#Capital stock under baseline
+plot(K[1,2:100], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="1b) Capital stock under baseline",ylab = '£',xlab = '', ylim = range(0,80),cex.axis=0.75,cex.lab=1)
+lines(KT[1,2:100], type="l", lty = 2, lwd = 2, col=2)
+abline(h=51.28146,col=1,lty=3,lwd=1)
+legend("bottomright",c("Actual","Target"),  bty = "n", cex = 1, lty=c(1,2), lwd=c(2,2), col = c(1,2), box.lty=0)
+
+#Create plots under new scenario
+
+#Output components after shock to distribution
+plot(Y[2,27:50]-Y[1,27:50], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="2a) Change in output components following an \n increase in wage share",ylab = 'Difference with baseline',xlab = '', ylim = range(0,15),cex.axis=0.75,cex.lab=1)
+rect(xleft=4,xright=5,ybottom=-50,ytop=50,col=mycol1,border=NA)
+lines(C[2,27:50]-C[1,27:50], type="l", lty = 2, lwd = 2, col=2)
+lines(I[2,27:50]-I[1,27:50], type="l", lty = 3, lwd = 2, col=3)
+legend("topleft",c("Output","Consumption","Gross investment"),  bty = "n", cex = 1, lty=c(1,2,3), lwd=c(2,2,2), col = c(1,2,3), box.lty=0)
+
+#Capital stock after shock to distribution
+plot(K[2,27:50]/K[1,27:50], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="2b) Change in capital stock following an increase in \n wage share",ylab = 'Relative to baseline',xlab = '', ylim = range(1,1.25),cex.axis=0.75,cex.lab=1)
+rect(xleft=5,xright=6,ybottom=-50,ytop=50,col=mycol1,border=NA)
+lines(KT[2,27:50]/KT[1,27:50], type="l", lty = 2, lwd = 2, col=2)
+legend("topleft",c("Actual","Target"),  bty = "n", cex = 1, lty=c(1,2), lwd=c(2,2), col = c(1,2), box.lty=0)
