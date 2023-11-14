@@ -1,0 +1,113 @@
+#MAE MODEL
+
+#Made by MVP, 26th February 2020
+
+############################################################################
+
+#STEP 1: Clear the workspace
+
+#Clear all
+rm(list=ls(all=TRUE))
+
+############################################################################
+
+
+#STEP 2: Define the number of periods and scenarios
+
+#Number of periods
+nPeriods = 100
+
+#Number of scenarios
+nScenarios=2 
+
+
+############################################################################
+
+#STEP 3: 
+
+#Variables
+Y=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Output (income)
+C=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Consumption
+I=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Investment
+K=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Capital stock
+r=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Policy rate 
+p=matrix(data=1,nrow=nScenarios,ncol=nPeriods)              #Price level
+Y_t=matrix(data=0,nrow=nScenarios,ncol=nPeriods)            #Natural output 
+L_t=matrix(data=25,nrow=nScenarios,ncol=nPeriods)           #Available labour units 
+K_t=matrix(data=25,nrow=nScenarios,ncol=nPeriods)           #Optimal capital stock 
+Xi=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Output shock (government spending)
+
+############################################################################
+
+#STEP 4: Set values for parameters and exogenous variables 
+c0=90                                                     #Consumption function coefficient
+cr=180                                                    #Consumption function coefficient
+alpha=4                                                   #Technical progress coefficient
+beta=0.5                                                  #Output elasticity of labour  
+pi0 = 1                                                   #Autonomous component of unit price
+pi1 = 0.01                                                #Sensitivity of unit price to output gap
+sigma = 0.1                                               #Sensitivity of interest rate to price gap
+p_t = 1                                                   #Targe price level
+delta=0.25                                                #Capital depreciation rate
+gamma=0.2                                                 #Investment rate
+
+############################################################################
+
+# STEP 5: MODEL AND ITERATIONS
+
+#Select scenarios
+for (j in 1:nScenarios){
+  
+  #Define the time loop
+  for (i in 2:nPeriods){
+    
+    #Define iterations
+    for (iterations in 1:100){
+      
+      #Loose government spending 
+      if (i>=30 && j==2){
+        Xi[2,i]=5
+      }
+      
+      
+      #MODEL EQUATIONS      
+      Y[j,i] = C[j,i] + I[j,i] + Xi[j,i]                      #1B) National income (output) including shock component
+      C[j,i] = c0 - cr*r[j,i-1]                               #2D) Consumption
+      I[j,i] = gamma*Y[j,i-1] - delta*K[j,i-1]                #4C) Gross investment
+      Y_t[j,i] = alpha*(L_t[j,i]^beta)*(K_t[j,i]^(1-beta))    #18) Natural output
+      p[j,i] = pi0 + pi1*(Y[j,i-1]-Y_t[j,i])                  #19) Price level
+      r[j,i] = r[j,i-1] + sigma*(p[j,i-1]-p_t)                #20) Policy rate
+      
+    }
+  }
+}
+
+############################################################################
+
+# STEP 6: PERFORM CHECKS AND BASIC PLOTS
+
+#Create custom color
+
+mycol1 <- rgb(0,255,0, max = 255, alpha = 50, names = "mygreen")
+mycol2 <- rgb(255,0,0, max = 255, alpha = 50, names = "myred")
+mycol3 <- rgb(0, 0, 255, max = 255, alpha = 50, names = "blue50")
+
+#Output after shock
+plot(Y[2,28:60]-Y[1,28:60], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="a) Output after positive shock to demand",ylab = 'Difference with baseline',xlab = '', ylim = range(-1,7),cex.axis=1,cex.lab=1)
+rect(xleft=2,xright=5,ybottom=-50,ytop=50,col=mycol2,border=NA)
+rect(xleft=20,xright=40,ybottom=-50,ytop=50,col=mycol1,border=NA)
+abline(h=0,col=1,lty=3,lwd=1)
+lines(Y_t[2,28:60]-Y_t[1,28:60], type="l", lty = 2, lwd = 2, col=2)
+legend("right",c("Current output","Potential output"),  bty = "n", cex = 1, lty=c(1,2), lwd=c(2,2), col = c(1,2), box.lty=0)
+
+#Price after shock
+plot(p[2,28:60]-p[1,28:60], type="l", lty = 1, lwd = 2, col="purple", font.main=1,cex.main=1,main="b) Price level after shock",ylab = 'Difference with baseline',xlab = '', ylim = range(-0.02,0.07),cex.axis=1,cex.lab=1)
+abline(h=0,col=1,lty=3,lwd=1)
+
+#Interest rate after shock
+plot(r[2,28:60]-r[1,28:60], type="l", lty = 1, lwd = 2, col=5, font.main=1,cex.main=1,main="c) Nominal interest rate after shock",ylab = 'Difference with baseline',xlab = '', ylim = range(0,0.04),cex.axis=1,cex.lab=1)
+abline(h=0,col=1,lty=3,lwd=1)
+
+#Real interest rate after shock
+plot((r[2,28:60]/p[2,28:60])-(r[1,28:60]/p[1,28:60]), type="l", lty = 1, lwd = 2, col=4, font.main=1,cex.main=1,main="d) Real interest rate",ylab = 'Difference with baseline',xlab = '', ylim = range(0,0.04),cex.axis=1,cex.lab=1)
+abline(h=0,col=1,lty=3,lwd=1)
