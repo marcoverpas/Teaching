@@ -1,0 +1,110 @@
+#Marxian Economics (ME) MODEL
+
+#Made by Marco Veronese Passarella, 26th February 2020
+
+############################################################################
+
+#STEP 1: Clear the workspace
+
+#Clear all
+rm(list=ls(all=TRUE))
+
+############################################################################
+
+#STEP 2: Define the number of periods and scenarios
+
+#Number of periods
+nPeriods = 100
+
+#Number of scenarios
+nScenarios=2 
+
+
+############################################################################
+
+#STEP 3: Define variables
+Y=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Output (income)
+C=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Consumption
+I=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Investment
+NX=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Net export
+K=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Capital stock 
+KT=matrix(data=0,nrow=nScenarios,ncol=nPeriods)             #Desired capital stock 
+P=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Profits 
+W=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Wages 
+r=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Profit rate 
+omega=matrix(data=0.5,nrow=nScenarios,ncol=nPeriods)        #Wage share to total income
+e=matrix(data=0,nrow=nScenarios,ncol=nPeriods)              #Exploitation rate
+
+############################################################################
+
+#STEP 4: Set values for parameters and exogenous variables 
+c0=20                                                       #Autonomous consumption
+c1=0.8                                                      #Marginal propensity to consume out of income
+kappa=1                                                     #Target capital to output ratio
+gamma=0.15                                                  #Speed of adjustment of capital
+delta=0.1                                                   #Capital depreciation rate
+m=0.1                                                       #Marginal propensity to import out of total income
+x0=0                                                        #Autonomous export
+cW=0.9                                                      #Marginal propensity to consume out of wages
+cP=0.7                                                      #Marginal propensity to consume out of profits
+rho=100                                                     #Sensitivity of investment to profit rate  
+
+############################################################################
+
+# STEP 5: CREATE THE MODEL
+
+#Select scenarios
+for (j in 1:nScenarios){
+  
+  #Define the time loop
+  for (i in 2:nPeriods){
+    
+    #Define iterations
+    for (iterations in 1:100){
+      
+      #Define alternative scenarios
+      
+      #Higher wage share
+      if (i>=30 && j==2){
+        omega[2,i]=0.6
+      }    
+      
+      #MODEL EQUATIONS      
+      Y[j,i] = C[j,i] + I[j,i] + NX[j,i]                     #1) National income (output)
+      C[j,i] = c0 + cW*W[j,i-1] + cP*P[j,i-1]                #2B) Consumption
+      KT[j,i] = kappa*Y[j,i-1]                               #3) Desired capital stock 
+      I[j,i] = gamma*(KT[j,i] - K[j,i-1]) + delta*K[j,i-1] + rho*r[j,i-1] #4B) Marxian gross investment
+      K[j,i] = K[j,i-1]*(1-delta) + I[j,i]                   #5) Capital stock 
+      NX[j,i] = x0 - m*Y[j,i-1]                              #6) Net export
+      W[j,i] = omega[j,i]*Y[j,i]                             #7) Wages
+      P[j,i] = (1-omega[j,i])*Y[j,i]                         #8) Profits
+      if (K[j,i-1]==0) {r[j,i]=0} 
+      else {r[j,i] = P[j,i-1]/K[j,i-1]}                      #10B) Profit rate
+      e[j,i] = P[j,i]/W[j,i]                                 #11) Exploitation rate
+      
+    }
+  }
+}
+
+############################################################################
+
+# STEP 6: PERFORM CHECKS AND PLOTS
+
+#Create custom color
+mycol1 <- rgb(0,255,0, max = 255, alpha = 50, names = "mygreen")
+mycol2 <- rgb(255,0,0, max = 255, alpha = 50, names = "myred")
+mycol3 <- rgb(0, 0, 255, max = 255, alpha = 50, names = "blue50")
+
+#Output components after shock to distribution
+plot(Y[2,27:50]-Y[1,27:50], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="a) Change in output components following an increase \n in wage share (with Marxian investment)",ylab = 'Difference with baseline',xlab = '', ylim = range(-5,15),cex.axis=0.75,cex.lab=1)
+rect(xleft=4,xright=5,ybottom=-50,ytop=50,col=mycol1,border=NA)
+lines(C[2,27:50]-C[1,27:50], type="l", lty = 2, lwd = 2, col=2)
+lines(I[2,27:50]-I[1,27:50], type="l", lty = 3, lwd = 2, col=3)
+lines(NX[2,27:50]-NX[1,27:50], type="l", lty = 4, lwd = 2, col=4)
+legend("topleft",c("Output","Consumption","Gross investment","Net export"),  bty = "n", cex = 1, lty=c(1,2,3,4), lwd=c(2,2,2,2), col = c(1,2,3,4), box.lty=0)
+
+#Capital stock after shock to distribution
+plot(K[2,27:50]/K[1,27:50], type="l", lty = 1, lwd = 2, col=1, font.main=1,cex.main=1,main="b) Change in capital stock following an increase \n in wage share (with Marxian investment)",ylab = 'Relative to baseline',xlab = '', ylim = range(0.9,1.1),cex.axis=0.75,cex.lab=1)
+rect(xleft=5,xright=6,ybottom=-50,ytop=50,col=mycol1,border=NA)
+lines(KT[2,27:50]/KT[1,27:50], type="l", lty = 2, lwd = 2, col=2)
+legend("topleft",c("Actual","Target"),  bty = "n", cex = 1, lty=c(1,2), lwd=c(2,2), col = c(1,2), box.lty=0)
