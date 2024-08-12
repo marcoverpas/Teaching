@@ -12,7 +12,7 @@ In addition, the codes for a *post-Keynesian* model, a *stock-flow consistent* p
 
 For additional teaching material, see also:
 
-- [My 'Macroeconomia' module](https://github.com/marcoverpas/Macroeconomia)
+- ['Macroeconomia' module at University of L'Aquila](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
 
 - [Notes for the 17th EAEPE Summer School, 2024](https://github.com/marcoverpas/EAEPE_summer_school_2024)
 
