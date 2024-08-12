@@ -12,9 +12,9 @@ In addition, the codes for a *post-Keynesian* model, a *stock-flow consistent* p
 
 For additional teaching material, see also:
 
-- ['Macroeconomia' module at University of L'Aquila](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
+- ['Macroeconomia' module at University of L'Aquila, 2024/2025](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
 
-- [Notes for the 17th EAEPE Summer School, 2024](https://github.com/marcoverpas/EAEPE_summer_school_2024)
+- [Notes for the 17th EAEPE Summer School, 2024](https://github.com/marcoverpas/EAEPE_summer_school, July_2024)
 
-- [Six_lectures_on_sfc_models](https://github.com/marcoverpas/Six_lectures_on_sfc_models)
+- [Six_lectures_on_sfc_models](https://github.com/marcoverpas/Six_lectures_on_sfc_models, December 2023)
 
