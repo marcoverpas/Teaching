@@ -14,7 +14,7 @@ For additional teaching material, see also:
 
 - ['Macroeconomia' module at University of L'Aquila, 2024](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
 
-- [Notes for the 17th EAEPE Summer School, Rome 2024](https://github.com/marcoverpas/EAEPE_summer_school)
+- [Notes for the 17th EAEPE Summer School, Rome 2024](https://github.com/marcoverpas/EAEPE_summer_school_2024)
 
 - [Six lectures on sfc models, Beijing 2023](https://github.com/marcoverpas/Six_lectures_on_sfc_models)
 
