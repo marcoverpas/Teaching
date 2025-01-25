@@ -18,5 +18,5 @@ For additional teaching material, see also:
 
 - [Notes for the 17th EAEPE Summer School, Rome 2024](https://github.com/marcoverpas/EAEPE_summer_school_2024)
 
-- [Six lectures on sfc models, Beijing 2023](https://github.com/marcoverpas/Six_lectures_on_sfc_models)
+- [Six lectures on SFC models, Beijing 2023](https://github.com/marcoverpas/Six_lectures_on_sfc_models)
 
