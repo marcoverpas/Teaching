@@ -12,6 +12,8 @@ In addition, the codes for a *post-Keynesian* model, a *stock-flow consistent* p
 
 For additional teaching material, see also:
 
+- [PhD lectures on TMC and SFC models at the University of Macerata, 2025](https://github.com/marcoverpas/PhD_Lectures_Macerata_2025)
+
 - ['Macroeconomia' module at University of L'Aquila, 2024](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
 
 - [Notes for the 17th EAEPE Summer School, Rome 2024](https://github.com/marcoverpas/EAEPE_summer_school_2024)
