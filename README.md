@@ -12,6 +12,8 @@ In addition, the codes for a *post-Keynesian* model, a *stock-flow consistent* p
 
 For additional teaching material, see also:
 
+- ['Economics of digital transformation' module at University of L'Aquila, 2025](https://github.com/marcoverpas/-Economics-of-Digital-Transformation-module-L-Aquila-University-2025)
+
 - [PhD lectures on TMC and SFC models at the University of Macerata, 2025](https://github.com/marcoverpas/PhD_Lectures_Macerata_2025)
 
 - ['Macroeconomia' module at University of L'Aquila, 2024](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
