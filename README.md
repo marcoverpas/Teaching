@@ -12,6 +12,8 @@ In addition, the codes for a *post-Keynesian* model, a *stock-flow consistent* p
 
 For additional teaching material, see also:
 
+- [Modelling Monetary Economies of Production: Integrating SFC, IO and ABM Approaches, University of Leeds, 2026](https://github.com/marcoverpas/Leeds_lectures_2026) :new:
+
 - [Modelling the Ecological Transition Through a Simple IO-SFC Model, University of Florence, 2025](https://github.com/marcoverpas/keynote_speech_Florence)
 
 - ['Economics of digital transformation' module at University of L'Aquila, 2025](https://github.com/marcoverpas/-Economics-of-Digital-Transformation-module-L-Aquila-University-2025)
