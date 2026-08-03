@@ -20,7 +20,11 @@ For additional teaching material, see also:
 
 - [PhD lectures on TMC and SFC models at the University of Macerata, 2025](https://github.com/marcoverpas/PhD_Lectures_Macerata_2025)
 
-- ['Macroeconomia' module at University of L'Aquila, 2024](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
+- [Mini corso di economia monetaria, 2026](https://github.com/marcoverpas/economia_monetaria) (*Italian only*) :new:
+
+- ['Analisi Economica' module at University of L'Aquila, 2026](https://github.com/marcoverpas/analisi_economica) (*Italian only*) :new:
+
+- ['Macroeconomia' module at University of L'Aquila, since 2024](https://github.com/marcoverpas/Macroeconomia) (*Italian only*)
 
 - [Notes for the 17th EAEPE Summer School, Rome 2024](https://github.com/marcoverpas/EAEPE_summer_school_2024)
 
