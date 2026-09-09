@@ -30,3 +30,4 @@ For additional teaching material, see also:
 
 - [Six lectures on SFC models, Beijing 2023](https://github.com/marcoverpas/Six_lectures_on_sfc_models)
 
+- [Guideline for writing a dissertation](https://www.marcopassarella.it/wp-content/uploads/Vademecum-per-la-scrittura-della-tesi.pdf) (*Italian only*) :new:
